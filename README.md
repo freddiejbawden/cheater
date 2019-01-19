@@ -1,0 +1,5 @@
+# Cheater
+
+Cheat bot
+
+HackCambridge
