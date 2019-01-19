@@ -1,0 +1,70 @@
+.thermo {
+  background-color: red;
+  width: 100%;
+}
+.holder  {
+  border-style: solid;
+  width: 40px;
+  height: 300px;
+
+}
+.container {
+  display:flex;
+  font-size: 20px;
+}
+.attribute_box {
+  height: 75px;
+  width: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.control_panel {
+  display: flex;
+  background-color: grey;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.metercontainer {
+  display: flex;
+  margin-right: 20px;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+
+}
+.face_values {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.game {
+  background-color: green;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hand {
+  width: 100%;
+  background-color: blue;
+}
+body{
+  font-family: sans-serif;
+  margin: 0;
+}
+.red {
+  color:red;
+}
+.black{
+  color:black;
+}
