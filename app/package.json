@@ -1,0 +1,17 @@
+{
+  "name": "cheater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^4.0.1"
+  },
+  "dependencies": {
+    "deck-of-cards": "^0.1.8"
+  }
+}
