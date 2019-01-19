@@ -2,6 +2,7 @@ import cv2
 import time
 import datetime
 import requests
+import csv
 
 f_api = open("api_code.txt", "r")
 api_key = f_api.readline()
@@ -46,10 +47,17 @@ while rval:
         if key == 43:
             print("Truth")
             cv2.imwrite("Truth/" + st + ".jpg", frame)
+            told = "1"
         if key == 45:
             print("Lie")
             cv2.imwrite("Lie/" + st + ".jpg", frame)
-
-    if key == 27:  # exit on ESC
-        break
-cv2.destroyWindow("preview")
+            told = "0"
+        if key == 43 or key == 45:
+            f = open("results.csv", "a")
+            features = [told, st, str(face_atts["smile"])] + [str(face_atts["emotion"][emotion]) for emotion in
+                                                         face_atts["emotion"].keys()]
+            f.write(",".join(features) + "\n")
+            f.close()
+        if key == 27:  # exit on ESC
+            cv2.destroyWindow("preview")
+            break
