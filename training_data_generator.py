@@ -36,7 +36,7 @@ else:
 while rval:
     cv2.imshow("preview", frame)
     rval, frame = vc.read()
-    key = cv2.waitKey(333)
+    key = cv2.waitKey(20)
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y%m%d%H%M%S')
     if key == 13:
