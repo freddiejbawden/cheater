@@ -40,17 +40,15 @@ while rval:
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y%m%d%H%M%S')
     if key == 13:
         frame_bytes = cv2.imencode('.jpg', frame)[1].tobytes()
+        _, face_atts = pred_image(frame_bytes)
+        print(face_atts)
         key = cv2.waitKey()
         if key == 43:
             print("Truth")
             cv2.imwrite("Truth/" + st + ".jpg", frame)
-            _, face_atts = pred_image(frame_bytes)
-            print(face_atts)
         if key == 45:
             print("Lie")
             cv2.imwrite("Lie/" + st + ".jpg", frame)
-            _, face_atts = pred_image(frame_bytes)
-            print(face_atts)
 
     if key == 27:  # exit on ESC
         break
