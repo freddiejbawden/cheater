@@ -98,13 +98,16 @@ class AIPlayer:
             print("Say: %s * %ss, Play: %s" % (best_move[0], best_move[1], best_move[2:len(best_move)]))
 
     def next_best_move(self, last_played_value, cards_in_hand, score_to_date, depth):
+        # Limit depth of problem to reduce complexity
         if depth == 0:
             return 0, ""
         else:
             best_score = -float('inf')
             best_move = ""
             if last_played_value is None:
-                poss_values = VALUES
+                # If can do any move, consider playing one of the top 3 moves by just looking at frequencies, which
+                # vastly simplifies the search space
+                poss_values = self.find_top_3_most_freq_in_hand()
             else:
                 poss_values = possible_moves(last_played_value)
             for value in poss_values:
@@ -114,9 +117,13 @@ class AIPlayer:
                     # We assume a uniform distribution for the other players moves, this is somewhat optimistic, but
                     # could be adjusted at a later date
                     other_player_poss_values_probs[other_player_poss_value] = 1 / len(other_player_poss_values)
+                # Can play between 2 and 4 cards
                 for no_cards_played in range(2, 5):
+                    # From all cards we have in our hand, select no_cards_played cards to actually play
                     for cards_played in possible_cards_to_add_to_pile(cards_in_hand,
-                                                                      no_cards_played):  # -2 as noCardsPlayed starts at 2, but is indexed at 0
+                                                                      no_cards_played):
+                        # Create a new copy of score and cards in our hand if we went this path, and update to reflect
+                        # traversing the path
                         new_score = score_to_date + no_cards_played
                         new_cards_in_hand = cards_in_hand.copy()
                         for card_played in cards_played:
@@ -144,10 +151,26 @@ class AIPlayer:
 
                         # print("%s, %s" % (new_score, "Say: " + str(no_cards_played) + " * " + value + ", Play: " +
                         #                 ",".join(cards_played)))
-                        
+
                         # Add a random chance of the best move being set to a different value even if the score will
                         # be the same, this makes it slightly harder to see through the AI's lies
                         if new_score > best_score or (new_score == best_score and random.random() >= 0.5):
                             best_score = new_score
                             best_move = [str(no_cards_played), value] + list(cards_played)
             return best_score, best_move
+
+    def find_top_3_most_freq_in_hand(self):
+        freqs = {0: [], 1: [], 2: [], 3: [], 4: []}
+        for value in VALUES:
+            freqs[self.our_hand[value]].append(value)
+        most_freqs = []
+        remaining = 3
+        for i in range(4, -1, -1):
+            if len(freqs[i]) > remaining:
+                most_freqs += random.sample(freqs[i], remaining)
+                remaining = 0
+            else:
+                most_freqs += freqs[i]
+                remaining -= len(freqs[i])
+            if len(most_freqs) == 0:
+                return most_freqs
